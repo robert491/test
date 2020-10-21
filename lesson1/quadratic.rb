@@ -17,7 +17,7 @@ end
 message =
   if discriminant.positive?
     "D = #{discriminant}. x1 = #{first_x}, x2 = #{second_x}."
-  elsif d.zero?
+  elsif discriminant.zero?
     "D = #{discriminant}. x = #{first_x}."
   else
     "D = #{discriminant}. Корней нет."
