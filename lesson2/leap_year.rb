@@ -36,9 +36,8 @@ user_year = gets.to_i
 
 quantity = leap?(user_year) && user_month > 2 ? user_date += 1 : user_date
 
-common_year.each do |month, days|
-  break if month == user_month
-  quantity += days
+(1...user_month).each do |month|
+  quantity += common_year[month]
 end
 
 puts quantity
