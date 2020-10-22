@@ -1,3 +1,3 @@
 array = [0, 1]
 
-98.times { array << array.last(2).sum }
+array << array.last(2).sum while array.last(2).sum < 100
