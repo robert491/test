@@ -14,14 +14,16 @@ class Station
     @trains.delete(train)
   end
 
-  def to_s
+  def to_s(type = "all")
     @trains.each do |train|
-      puts <<~TEXT
-      ============
-      ID:#{train.id}
-      Тип:#{train.type}
-      Кол-во:#{train.cars_number}"
-      TEXT
+      if [type, "all"].include?(train.type)
+        puts <<~TEXT
+        ============
+        ID:#{train.id}
+        Тип:#{train.type}
+        Кол-во:#{train.cars_number}"
+        TEXT
+      end
     end
   end
 end

@@ -7,11 +7,15 @@ class Route
   end
 
   def add_station(station)
-    @stations.insert(-2, station)
+    @stations.insert(-2, station) unless edge_station?(station)
   end
 
   def remove_station(station)
-    @stations.delete(station)
+    @stations.delete(station) unless edge_station?(station)
+  end
+
+  def edge_station?(station)
+    [@first_station, @last_station].include?(station)
   end
 
   def to_s
