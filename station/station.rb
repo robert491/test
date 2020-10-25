@@ -14,9 +14,9 @@ class Station
     @trains.delete(train)
   end
 
-  def to_s(type = "all")
+  def to_s(type = '')
     @trains.each do |train|
-      if [type, "all"].include?(train.type)
+      if [train.type, ''].include?(type)
         puts <<~TEXT
         ============
         ID:#{train.id}

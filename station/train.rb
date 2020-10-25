@@ -3,7 +3,7 @@ class Train
 
   def initialize(id, type, cars_number)
     @id, @type, @cars_number = id, type, cars_number
-    @route, @current_station, @previous_station, @next_station = nil
+    @route, @current_station = nil
     @speed = 0
   end
 
@@ -26,7 +26,6 @@ class Train
   def add_route(route)
     @route = route
     @current_station = @route.first_station
-    @next_station = next_station
     @current_station.add_train(self)
   end
 
@@ -35,23 +34,21 @@ class Train
   end
 
   def previous_station
-    @route.stations[@route.stations.index(@current_station) - 1]
+    @route.stations[@route.stations.index(@current_station) - 1] unless @current_station == @route.first_station
   end
 
   def forward
-    unless @current_station == @route.last_station
+    if next_station
       @current_station.remove_train(self)
-      @previous_station, @current_station = @current_station, @next_station
-      @next_station = next_station
+      @current_station = next_station
       @current_station.add_train(self)
     end
   end
 
   def back
-    unless @current_station == @route.first_station
+    if previous_station
       @current_station.remove_train(self)
-      @next_station, @current_station = @current_station, @previous_station
-      @previous_station = previous_station
+      @current_station = previous_station
       @current_station.add_train(self)
     end
   end
