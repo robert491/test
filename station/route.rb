@@ -7,18 +7,26 @@ class Route
   end
 
   def add_station(station)
-    @stations.insert(-2, station) unless edge_station?(station)
+    @stations.insert(-2, station) unless same_station?(station)
   end
 
   def remove_station(station)
-    @stations.delete(station) unless edge_station?(station)
+    @stations.delete(station) if same_station?(station) && !edge_station?(station)
   end
 
+  def to_s
+    stations_names = []
+    @stations.each { |station| stations_names << station.name }
+    stations_names
+  end
+
+  private # эти методы используются только данным классом
+  
   def edge_station?(station)
     [@first_station, @last_station].include?(station)
   end
 
-  def to_s
-    @stations.each.with_index(1) { |station, index| puts "#{index}. #{station.name}" }
+  def same_station?(station)
+    @stations.include?(station)
   end
 end

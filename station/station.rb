@@ -15,15 +15,16 @@ class Station
   end
 
   def to_s(type = '')
-    @trains.each do |train|
-      if [train.type, ''].include?(type)
-        puts <<~TEXT
-        ============
-        ID:#{train.id}
-        Тип:#{train.type}
-        Кол-во:#{train.cars_number}"
-        TEXT
+    if @trains.empty?
+      puts 'Поездов нет.'
+    else
+      station_trains = []
+      @trains.each do |train|
+        if [train.type, ''].include?(type)
+          station_trains << "ID: #{train.id}\nТип: #{train.type}\nКол-во: #{train.cars.size}" 
+        end
       end
+      station_trains
     end
   end
 end
