@@ -3,7 +3,6 @@ class Train
 
   def initialize(id, type)
     @id, @type = id, type
-    @route, @current_station = nil
     @cars = []
     @speed = 0
   end
@@ -52,6 +51,10 @@ class Train
       @current_station = previous_station
       @current_station.add_train(self)
     end
+  end
+
+  def to_s
+    "ID: #{@id}\nТип: #{@type}\nКол-во: #{@cars.size}"
   end
 
   protected # эти методы используются в подклассах

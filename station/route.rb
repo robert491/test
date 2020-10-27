@@ -15,9 +15,7 @@ class Route
   end
 
   def to_s
-    stations_names = []
-    @stations.each { |station| stations_names << station.name }
-    stations_names
+    @stations.map { |station| station.name }
   end
 
   private # эти методы используются только данным классом

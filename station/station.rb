@@ -16,15 +16,9 @@ class Station
 
   def to_s(type = '')
     if @trains.empty?
-      puts 'Поездов нет.'
+      'Поездов нет.'
     else
-      station_trains = []
-      @trains.each do |train|
-        if [train.type, ''].include?(type)
-          station_trains << "ID: #{train.id}\nТип: #{train.type}\nКол-во: #{train.cars.size}" 
-        end
-      end
-      station_trains
+      @trains.select { |train| [train.type, ''].include?(type) } 
     end
   end
 end
