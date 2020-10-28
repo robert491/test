@@ -1,10 +1,21 @@
 class Train
+  include Manufacturer
+  include InstanceCounter
+
   attr_reader :id, :type, :cars, :speed, :current_station, :previous_station, :next_station
+
+  @@trains = {}
+
+  def self.find(id)
+    @@trains[id]
+  end
 
   def initialize(id, type)
     @id, @type = id, type
     @cars = []
     @speed = 0
+    @@trains[id] = self
+    register_instance
   end
 
   def speed_up
