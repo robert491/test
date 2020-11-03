@@ -1,5 +1,6 @@
 class Station
   include InstanceCounter
+  include Validator
 
   attr_reader :name, :trains
 
@@ -11,6 +12,7 @@ class Station
 
   def initialize(name)
     @name = name
+    validate!
     @trains = []
     @@stations << self
     register_instance

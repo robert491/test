@@ -1,10 +1,12 @@
 class Route
   include InstanceCounter
+  include Validator
 
   attr_reader :stations, :first_station, :last_station
 
   def initialize(first_station, last_station)
     @first_station, @last_station = first_station, last_station
+    validate!
     @stations = [@first_station, @last_station]
     register_instance
   end

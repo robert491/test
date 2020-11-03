@@ -1,6 +1,9 @@
 class Train
   include Manufacturer
   include InstanceCounter
+  include Validator
+
+  ID_FORMAT = /^[^\W_]{3}-?[^\W_]{2}$/
 
   attr_reader :id, :type, :cars, :speed, :current_station, :previous_station, :next_station
 
@@ -12,6 +15,7 @@ class Train
 
   def initialize(id, type)
     @id, @type = id, type
+    validate!
     @cars = []
     @speed = 0
     @@trains[id] = self

@@ -1,4 +1,5 @@
 require_relative 'instance_counter'
+require_relative 'validator'
 require_relative 'manufacturer'
 require_relative 'route'
 require_relative 'station'
@@ -31,11 +32,16 @@ class Main
   end
 
   def create_route(first_station, last_station)
-    @routes << Route.new(first_station, last_station) unless first_station == last_station
+    @routes << Route.new(first_station, last_station)
   end
 
   def create_car(train)
-    Car.new(@trains[train].type)
+    case @trains[train].type
+    when :cargo
+      CargoCar.new
+    when :passenger
+      PassengerCar.new
+    end
   end
 
   def show_stations
@@ -118,30 +124,51 @@ loop do
 
   case user_input
   when 1
-    print 'Название станции: '
-    name = gets.chomp
+    begin
+      print 'Название станции: '
+      name = gets.chomp
 
-    main.create_station(name)
+      main.create_station(name)
+      
+      puts "Создана станция #{name}."
+    rescue StandardError => error
+      puts error.message
+      retry
+    end
   when 2
-    print 'ID поезда: '
-    id = gets.chomp
+    begin
+      print 'ID поезда: '
+      id = gets.chomp
 
-    print 'Тип поезда (cargo/passenger): '
-    type = gets.chomp.to_sym
+      print 'Тип поезда (cargo/passenger): '
+      type = gets.chomp.to_sym
 
-    main.create_train(id, type)
+      main.create_train(id, type)
+
+      puts "Создан поезд #{id} - #{type}."
+    rescue StandardError => error
+      puts error.message
+      retry
+    end
   when 3
-    main.show_stations
+    begin
+      main.show_stations
 
-    print 'Укажите пункт отправления: '
-    station_index = main.user_answer_to_index
-    first_station = main.stations[station_index]
+      print 'Укажите пункт отправления: '
+      station_index = main.user_answer_to_index
+      first_station = main.stations[station_index]
 
-    print 'Укажите пункт назначения: '
-    station_index = main.user_answer_to_index
-    last_station = main.stations[station_index]
+      print 'Укажите пункт назначения: '
+      station_index = main.user_answer_to_index
+      last_station = main.stations[station_index]
 
-    main.create_route(first_station, last_station)
+      main.create_route(first_station, last_station)
+
+      puts "Создан маршрут #{first_station.name} - #{last_station.name}."
+    rescue StandardError => error
+      puts error.message
+      retry
+    end
   when 4
     print 'Удалить (0) или добавить (1) станцию в маршруте: '
     user_choice = gets.to_i
