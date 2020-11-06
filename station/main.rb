@@ -35,12 +35,12 @@ class Main
     @routes << Route.new(first_station, last_station)
   end
 
-  def create_car(train)
+  def create_car(train, total_capacity)
     case @trains[train].type
     when :cargo
-      CargoCar.new
+      CargoCar.new(total_capacity)
     when :passenger
-      PassengerCar.new
+      PassengerCar.new(total_capacity)
     end
   end
 
@@ -51,7 +51,7 @@ class Main
   end
 
   def show_station_info(station)
-    puts @stations[station].to_s
+    @stations[station].each_train { |train| puts train }
   end
 
   def show_routes
@@ -64,6 +64,9 @@ class Main
   def show_trains
     @trains.each.with_index(1) do |train, index|
       puts "#{index}. #{train.id} - #{train.type}"
+      train.each_car do |car|
+        puts "#{car.current_capacity}/#{car.total_capacity}"
+      end
     end
   end
 
@@ -129,7 +132,7 @@ loop do
       name = gets.chomp
 
       main.create_station(name)
-      
+
       puts "Создана станция #{name}."
     rescue StandardError => error
       puts error.message
@@ -206,10 +209,24 @@ loop do
     print 'Укажите поезд: '
     train = main.user_answer_to_index
 
-    main.remove_car_from_train(train) if !main.user_agree?(user_choice)
-    
-    car = main.create_car(train)
-    main.add_car_to_train(car, train) if main.user_agree?(user_choice)
+    if main.user_agree?(user_choice)
+      print 'Укажите максимальную вместимость вагона: '
+      total_capacity = gets.to_i
+
+      car = main.create_car(train, total_capacity)
+      main.add_car_to_train(car, train)
+
+      print 'Укажите заполненность вагона: '
+      current_capacity = gets.to_i
+
+      if car.type == :cargo
+        current_capacity.times { car.add_cargo }
+      else
+        current_capacity.times { car.add_passenger }
+      end
+    else
+      main.remove_car_from_train(train)
+    end
   when 7
     print 'Переместить поезд по маршруту назад (0) или вперед (1): '
     user_choice = gets.to_i

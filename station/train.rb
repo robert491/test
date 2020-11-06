@@ -68,6 +68,10 @@ class Train
     end
   end
 
+  def each_car
+    @cars.each { |car| yield car }
+  end
+
   def to_s
     "ID: #{@id}\nТип: #{@type}\nКол-во: #{@cars.size}"
   end

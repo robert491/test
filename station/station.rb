@@ -26,11 +26,15 @@ class Station
     @trains.delete(train)
   end
 
+  def each_train
+    @trains.each { |train| yield train }
+  end
+
   def to_s(type = '')
     if @trains.empty?
       'Поездов нет.'
     else
-      @trains.select { |train| [train.type, ''].include?(type) } 
+      @trains.select { |train| [train.type, ''].include?(type) }
     end
   end
 end
