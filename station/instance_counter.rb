@@ -1,11 +1,11 @@
 module InstanceCounter
-  #self - обращение к самому модулю
-  #self.included - определение метода included у этого модуля
-  #base - сам класс, куда подключается модуль
+  # self - обращение к самому модулю
+  # self.included - определение метода included у этого модуля
+  # base - сам класс, куда подключается модуль
 
   def self.included(base)
-    base.extend ClassMethods #метод класса
-    base.include InstanceMethods #метод объектов класса
+    base.extend ClassMethods # метод класса
+    base.include InstanceMethods # метод объектов класса
   end
 
   module ClassMethods

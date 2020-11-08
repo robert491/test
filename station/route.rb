@@ -5,7 +5,8 @@ class Route
   attr_reader :stations, :first_station, :last_station
 
   def initialize(first_station, last_station)
-    @first_station, @last_station = first_station, last_station
+    @first_station = first_station
+    @last_station = last_station
     validate!
     @stations = [@first_station, @last_station]
     register_instance
@@ -20,11 +21,11 @@ class Route
   end
 
   def to_s
-    @stations.map { |station| station.name }
+    @stations.map(&:name)
   end
 
   private # эти методы используются только данным классом
-  
+
   def edge_station?(station)
     [@first_station, @last_station].include?(station)
   end

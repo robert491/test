@@ -3,9 +3,9 @@ class Train
   include InstanceCounter
   include Validator
 
-  ID_FORMAT = /^[^\W_]{3}-?[^\W_]{2}$/
+  ID_FORMAT = /^[^\W_]{3}-?[^\W_]{2}$/.freeze
 
-  attr_reader :id, :type, :cars, :speed, :current_station, :previous_station, :next_station
+  attr_reader :id, :type, :cars, :speed, :current_station
 
   @@trains = {}
 
@@ -14,7 +14,8 @@ class Train
   end
 
   def initialize(id, type)
-    @id, @type = id, type
+    @id = id
+    @type = type
     validate!
     @cars = []
     @speed = 0
@@ -53,19 +54,19 @@ class Train
   end
 
   def move_forward
-    if next_station
-      @current_station.remove_train(self)
-      @current_station = next_station
-      @current_station.add_train(self)
-    end
+    return unless next_station
+
+    @current_station.remove_train(self)
+    @current_station = next_station
+    @current_station.add_train(self)
   end
 
   def move_back
-    if previous_station
-      @current_station.remove_train(self)
-      @current_station = previous_station
-      @current_station.add_train(self)
-    end
+    return unless previous_station
+
+    @current_station.remove_train(self)
+    @current_station = previous_station
+    @current_station.add_train(self)
   end
 
   def each_car
@@ -79,7 +80,7 @@ class Train
   protected # эти методы используются в подклассах
 
   def same_type?(car)
-    self.type == car.type
+    type == car.type
   end
 
   def same_car?(car)

@@ -103,7 +103,7 @@ class Main
   end
 
   def user_agree?(user_choice)
-    user_choice == 1 ? true : false
+    user_choice == 1
   end
 end
 
@@ -111,16 +111,16 @@ main = Main.new
 
 loop do
   puts <<~TEXT
-  Введите команду:
-  1 Создать станции
-  2 Создать поезда
-  3 Создать маршруты
-  4 Добавить или удалить станцию в существующем маршруте
-  5 Назначить маршрут поезду
-  6 Добавить или отцепить вагоны поезда
-  7 Переместить поезд по маршруту вперед или назад
-  8 Просмотреть список станций и поездов на станции
-  Нажмите ENTER, чтобы завершить программу.
+    Введите команду:
+    1 Создать станции
+    2 Создать поезда
+    3 Создать маршруты
+    4 Добавить или удалить станцию в существующем маршруте
+    5 Назначить маршрут поезду
+    6 Добавить или отцепить вагоны поезда
+    7 Переместить поезд по маршруту вперед или назад
+    8 Просмотреть список станций и поездов на станции
+    Нажмите ENTER, чтобы завершить программу.
   TEXT
 
   user_input = gets.to_i
@@ -134,8 +134,8 @@ loop do
       main.create_station(name)
 
       puts "Создана станция #{name}."
-    rescue StandardError => error
-      puts error.message
+    rescue StandardError => e
+      puts e.message
       retry
     end
   when 2
@@ -149,8 +149,8 @@ loop do
       main.create_train(id, type)
 
       puts "Создан поезд #{id} - #{type}."
-    rescue StandardError => error
-      puts error.message
+    rescue StandardError => e
+      puts e.message
       retry
     end
   when 3
@@ -168,8 +168,8 @@ loop do
       main.create_route(first_station, last_station)
 
       puts "Создан маршрут #{first_station.name} - #{last_station.name}."
-    rescue StandardError => error
-      puts error.message
+    rescue StandardError => e
+      puts e.message
       retry
     end
   when 4
@@ -186,7 +186,7 @@ loop do
     print 'Укажите станцию: '
     station = main.user_answer_to_index
 
-    main.remove_station_from_route(station, route) if !main.user_agree?(user_choice)
+    main.remove_station_from_route(station, route) unless main.user_agree?(user_choice)
     main.add_station_to_route(station, route) if main.user_agree?(user_choice)
   when 5
     main.show_routes
@@ -236,7 +236,7 @@ loop do
     print 'Укажите поезд: '
     train = main.user_answer_to_index
 
-    main.move_back(train) if !main.user_agree?(user_choice)
+    main.move_back(train) unless main.user_agree?(user_choice)
     main.move_forward(train) if main.user_agree?(user_choice)
   when 8
     main.show_stations
