@@ -69,8 +69,8 @@ class Train
     @current_station.add_train(self)
   end
 
-  def each_car
-    @cars.each { |car| yield car }
+  def each_car(&block)
+    @cars.each(&block)
   end
 
   def to_s

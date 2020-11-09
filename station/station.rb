@@ -26,8 +26,8 @@ class Station
     @trains.delete(train)
   end
 
-  def each_train
-    @trains.each { |train| yield train }
+  def each_train(&block)
+    @trains.each(&block)
   end
 
   def to_s(type = '')

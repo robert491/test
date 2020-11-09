@@ -1,0 +1,17 @@
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Style/ClassVars:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
