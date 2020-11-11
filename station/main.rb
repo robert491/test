@@ -1,5 +1,5 @@
 require_relative 'instance_counter'
-require_relative 'validator'
+require_relative 'validation'
 require_relative 'manufacturer'
 require_relative 'route'
 require_relative 'station'

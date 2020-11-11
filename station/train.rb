@@ -1,11 +1,14 @@
 class Train
   include Manufacturer
   include InstanceCounter
-  include Validator
+  include Validation
 
   ID_FORMAT = /^[^\W_]{3}-?[^\W_]{2}$/.freeze
 
   attr_reader :id, :type, :cars, :speed, :current_station
+
+  validate :id, :presence
+  validate :id, :format, ID_FORMAT
 
   @@trains = {}
 
